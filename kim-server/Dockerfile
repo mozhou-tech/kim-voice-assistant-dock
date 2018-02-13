@@ -2,20 +2,24 @@ FROM python:3.6-alpine3.7
 LABEL author=tenstone
 ENV PROJECT_DIR="kim-voice-assistant-server" PROJECT_GIT_PATH="https://github.com/tenstone/kim-voice-assistant-server.git"
 ENV NODE_VERSION 9.4.0
-ENV SETTINGS_FILE "setting-example.yaml"
-
-    # 安装git
-RUN apk --no-cache add git gcc g++ make libffi-dev openssl-dev
 
 # 进入工作目录
 WORKDIR /usr/src/app
+COPY . .
 
-# 获取代码
-RUN git clone $PROJECT_GIT_PATH
+    # 配置国内镜像，安装一些包
+RUN echo -e "http://mirrors.aliyun.com/alpine/v3.7/main\nhttp://mirrors.aliyun.com/alpine/v3.7/community" > /etc/apk/repositories && \
+    mkdir ~/.pip/ && \
+    echo -e "[global]\nindex-url = http://mirrors.aliyun.com/pypi/simple/\n\n[install]\ntrusted-host=mirrors.aliyun.com" > ~/.pip/pip.conf &&\
+    apk --no-cache add git gcc g++ make nginx uwsgi libffi-dev openssl-dev && \
+    mkdir /run/nginx && \
+    git clone $PROJECT_GIT_PATH
 
 # 处理项目文件
 WORKDIR /usr/src/app/$PROJECT_DIR
-RUN cp -f $SETTINGS_FILE setting.yaml && \
+
+RUN cp setting-example.yaml setting.yaml&& \
+    pwd && \
     git pull && \
     # 安装py package
     pip install --no-cache-dir -r requirements.txt
