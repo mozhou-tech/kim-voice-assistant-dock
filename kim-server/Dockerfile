@@ -1,7 +1,8 @@
 FROM python:3.6-alpine3.7
 LABEL author=tenstone
 ENV PROJECT_DIR="kim-voice-assistant-server" PROJECT_GIT_PATH="https://github.com/tenstone/kim-voice-assistant-server.git"
-ENV NODE_VERSION 9.5.0
+ENV NODE_VERSION 9.4.0
+ENV SETTINGS_FILE "setting-example.yaml"
 
     # 安装git
 RUN apk --no-cache add git gcc g++ make libffi-dev openssl-dev
@@ -14,7 +15,7 @@ RUN git clone $PROJECT_GIT_PATH
 
 # 处理项目文件
 WORKDIR /usr/src/app/$PROJECT_DIR
-RUN cp setting-example.yaml setting.yaml && \
+RUN cp -f $SETTINGS_FILE setting.yaml && \
     git pull && \
     # 安装py package
     pip install --no-cache-dir -r requirements.txt
@@ -62,10 +63,14 @@ RUN addgroup -g 1000 node \
     && rm -Rf "node-v$NODE_VERSION" \
     && rm "node-v$NODE_VERSION.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 
-WORKDIR /usr/src/app/$PROJECT_DIR
+# 编译前端js
+WORKDIR /usr/src/app/$PROJECT_DIR/app/client/app
 
 RUN npm install -g cnpm --registry=https://registry.npm.taobao.org &&\
     cnpm install &&\
-    npm build
+    npm run build &&\
+    rm -rf node_modules
+
+WORKDIR /usr/src/app/$PROJECT_DIR
 
 CMD [ "python", "run.py" ]
