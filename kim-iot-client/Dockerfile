@@ -13,3 +13,5 @@ RUN echo "deb http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free 
     echo "[global]\nindex-url = http://mirrors.aliyun.com/pypi/simple/\n\n[install]\ntrusted-host=mirrors.aliyun.com" >> ~/.pip/pip.conf
 
 #RUN apt-get install git gcc g++ make libffi-dev openssl-dev
+
+
