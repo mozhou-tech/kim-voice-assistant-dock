@@ -8,9 +8,8 @@ WORKDIR /usr/src/app
 COPY . .
 
     # 配置国内镜像，安装一些包
-#RUN echo -e "deb http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib\ndeb-src http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib" > /etc/apt/sources.list && \
-#    mkdir ~/.pip/ && \
-#    echo -e "[global]\nindex-url = http://mirrors.aliyun.com/pypi/simple/\n\n[install]\ntrusted-host=mirrors.aliyun.com" > ~/.pip/pip.conf \
-#    && mkdir /usr/src/app
+RUN echo "deb http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib\ndeb-src http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib" >> /etc/apt/sources.list && \
+    mkdir ~/.pip/ && \
+    echo "[global]\nindex-url = http://mirrors.aliyun.com/pypi/simple/\n\n[install]\ntrusted-host=mirrors.aliyun.com" >> ~/.pip/pip.conf
 
 #RUN apt-get install git gcc g++ make libffi-dev openssl-dev

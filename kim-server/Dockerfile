@@ -77,4 +77,4 @@ RUN npm install -g cnpm --registry=https://registry.npm.taobao.org &&\
 
 WORKDIR /usr/src/app/$PROJECT_DIR
 
-CMD [ "python", "run.py" ]
+CMD [ "python", "run.py" , "&"]
