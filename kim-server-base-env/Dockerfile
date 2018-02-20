@@ -1,9 +1,9 @@
-FROM python:3.6-alpine3.7
+FROM tiangolo/uwsgi-nginx-flask:python3.6-alpine3.7
 LABEL author=tenstone
 ENV NODE_VERSION 9.4.0
 
     # 配置国内镜像，安装一些包
-RUN echo -e "http://mirrors.aliyun.com/alpine/v3.7/main\nhttp://mirrors.aliyun.com/alpine/v3.7/community" > /etc/apk/repositories && \
+RUN echo -e "http://mirrors.aliyun.com/alpine/v3.7/main\nhttp://mirrors.aliyun.com/alpine/v3.7/community" > /etc/apk/repositories \
     && mkdir ~/.pip/ \
     && echo -e "[global]\nindex-url = http://mirrors.aliyun.com/pypi/simple/\n\n[install]\ntrusted-host=mirrors.aliyun.com" > ~/.pip/pip.conf \
     && apk --no-cache add git gcc g++ make nginx uwsgi libffi-dev openssl-dev \

@@ -7,17 +7,15 @@ ENV PROJECT_DIR="kim-voice-assistant-server" PROJECT_GIT_PATH="https://github.co
 WORKDIR /usr/src/app
 COPY . .
 
-RUN git clone $PROJECT_GIT_PATH
+ADD https://api.github.com/repos/tenstone/$PROJECT_DIR/git/refs/heads/master version.json
+RUN git clone $PROJECT_GIT_PATH && git pull
 
 # 处理项目文件
 WORKDIR /usr/src/app/$PROJECT_DIR
 
 RUN cp setting-example.yaml setting.yaml&& \
-    pwd && \
-    git pull && \
-    # 安装py package
+    echo '1' >/dev/null && git pull && \
     pip install --no-cache-dir -r requirements.txt
-
 
 WORKDIR /usr/src/app/$PROJECT_DIR/app/client/app
 

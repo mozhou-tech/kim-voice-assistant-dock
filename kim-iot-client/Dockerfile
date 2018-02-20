@@ -2,7 +2,7 @@ FROM resin/rpi-raspbian
 
 LABEL author=tenstone
 ENV PROJECT_DIR="kim-voice-assistant-iot-client" PROJECT_GIT_PATH="https://github.com/tenstone/kim-voice-assistant-iot-client.git"
-
+#  docker run --device=/dev/snd:/dev/snd  |for linux
 WORKDIR /usr/src/app
 
 COPY . .
